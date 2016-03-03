@@ -248,7 +248,7 @@
     }
 
     body {
-        background-image:url("img/background.jpg");
+        background-image:url("../img/background.jpg");
         padding: 25px 50px 25px 50px;
     }
 
