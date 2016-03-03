@@ -29,3 +29,4 @@ if($res){
     echo '</table>';
 }
 View::end();
+
