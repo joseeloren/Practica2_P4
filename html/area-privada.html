@@ -8,12 +8,12 @@
     </head>
     <body id="body">
         <div id="float-bg">
-         <header>
+        <header>
             <h1>Restaurante José</h1>
             <nav>
                 <ul>
                     <li>
-                        <a href="../index.html">Inicio</a>
+                        <a href="index.html">Inicio</a>
                     </li>
                     <li>
                         <a href="tabla.html">Platos</a>
@@ -21,22 +21,25 @@
                     <li>
                         <a href="localizacion.html">Localización</a>
                     </li>
+                    <li>
+                        <a href="area-privada.html">Área Privada</a>
+                    </li>
                 </ul>
             </nav>
-
         </header>
         <main>
             <section>
-                <h2 class="hide">Localización</h2>
-                <p id="parrafo" class="center">Nos encontramos en la Calle Bruno Naranjo Díaz nº 7, cerca del
-                    SPAR de Tafira.
-                </p>
-                <figure>
-                    <img id="localizacion" src="img/localizacion.jpg" alt="Mapa con la localización del restaurante marcada"/>
-                </figure>
+                <form id="login" action="../php/login.php">
+                    <p>Usuario:</p>
+                    <input type="text" name="usuario"><br>
+                    <p>Clave:</p>
+                    <input type="password" name="clave"><br><br>
+                    <input class="button" type="submit" value="Identificarse">
+                </form>
+                <div id="dummy-image"></div>
+                <a id="go-top" href="#body">Ir arriba</a>
             </section>
-             <a id="go-top" href="#body">Ir arriba</a>
         </main>
-            </div>
+        </div>
     </body>
 </html>
