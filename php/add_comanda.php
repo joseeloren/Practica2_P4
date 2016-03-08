@@ -1,12 +1,13 @@
 <?php
+include_once 'queries.php';
 include_once 'common.php';
-$id_mesa =  $_GET['id_mesa'];
-$id_camarero =  $_GET['id_camarero'];
-$horaapetura = $_GET['horaapertura'];
-$db = new PDO("sqlite:../datos.db");
-$db->exec('PRAGMA foreign_keys = ON;');
-$res=$db->prepare("INSERT into comandas (mesa, camareroapertura, horaapertura) values ($id_mesa, $id_camarero, $horaapertura);");
-$res->execute();
+include_once 'list_show.php';
+$res = new_comanda($_GET['id_mesa'], $_GET['id_camarero']);
 if ($res) {
-
+    writeNav();
+    $res = select_name_type($_GET['usuario'], $_GET['rol']);
+    if($res){
+        echo "<p id=\"saludo_login\">¡Bienvenido $_GET[nombre_usuario]!</p>";
+        show_list($_GET['rol'], $_GET['id_camarero'], $_GET['nombre_usuario'], $_GET['usuario']);
+    }
 }
