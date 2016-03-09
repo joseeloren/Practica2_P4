@@ -23,3 +23,14 @@ function new_comanda($id_mesa, $id_camarero) {
     $res = query_from_database($query, $array);
     return $res;
 }
+
+function select_articulos() {
+    $query = 'SELECT id, nombre from Articulos where stock > 0;';
+    $array = array();
+    $res = query_from_database($query, $array);
+    return $res;
+}
+
+function select_articulos_from_comanda($id_comanda) {
+    $query = 'select lineascomanda.id, nombre from articulos, lineascomanda where articulos.id=articulo;';
+}
