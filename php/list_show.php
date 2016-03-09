@@ -3,7 +3,7 @@ function show_list($type, $user_id, $nombre_usuario, $usuario) {
     if ($type==1)
         show_camarero_list($user_id,$nombre_usuario, $usuario, $type);
     else
-        show_cocinero_list($user_id,$nombre_usuario, $usuario, $type);
+        show_cocinero_list();
 }
 
 function show_camarero_list($user_id, $nombre_usuario, $usuario, $type) {
@@ -21,15 +21,8 @@ function show_camarero_list($user_id, $nombre_usuario, $usuario, $type) {
             echo "<tr>\n";
             $enlace = <<<FIN_HTML
             <td>
-                <form id="login" action="table.php">
-                    <input type="hidden" name="id_usuario" value=$user_id>
-                    <input type="hidden" name="nombre_usuario" value=$nombre_usuario>
-                    <input type="hidden" name="usuario" value=$usuario>
-                    <input type="hidden" name="rol" value=$type>
-                    <input type="hidden" name="id_mesa" value=$row[id]>
-                    <input type="hidden" name="estado" value=$row[Ocupacion]>
-                    <input class="button" type="submit" value="$row[Mesa]">
-                </form>
+                <a style="font-size:15px" href="table.php?id_mesa=$row[id]&estado=$row[Ocupacion]">
+                    $row[Mesa]</a>
             </td>
 FIN_HTML;
             echo $enlace;
@@ -41,6 +34,52 @@ FIN_HTML;
     echo '</table>';
 }
 
-function show_cocinero_list($user_id,$nombre_usuario, $usuario, $type) {
+function show_cocinero_list() {
+    $cabecera = <<<T_HTML
+    <table>
+        <tr>
+            <th>Nombre de artículo</th>
+            <th>Mesa</th>
+            <th>Indicar inicio</th>
+        </tr>
+T_HTML;
 
+    echo $cabecera;
+    $res = get_articulosPendientes();
+    if($res){
+        foreach($res as $game){
+            $fila = <<<T_HTML
+            <tr>
+            <td> {get_nombreArticulo($game[articulo])['nombre']} </td>
+            <td> {get_nombreMesa($game[mesa])[nombre]} </td>
+            <td>  </td>
+            </tr>
+T_HTML;
+            echo $fila;
+        }
+    }
+    echo "</table>";
+
+    $cabecera = <<<T_HTML
+    <table>
+        <tr>
+            <th>Artículo en Elaboración</th>
+            <th>Indicar Finalización</th>
+        </tr>
+T_HTML;
+
+    echo $cabecera;
+    $res = get_articulos_pendientes_de_cocinero($_SESSION['id_usuario']);
+    if($res){
+        foreach($res as $game){
+            $nombre_art = get_nombreArticulo($game['articulo']);
+            foreach ($nombre_art as $row)
+                $nombrecito = $row['nombre'];
+            $fila = "<tr>
+            <td> $nombrecito </td>
+            <td>  </td>
+            </tr>";
+            echo $fila;
+        }
+    }
 }

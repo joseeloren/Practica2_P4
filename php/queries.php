@@ -18,7 +18,7 @@ function select_de_mesa() {
 
 function new_comanda($id_mesa, $id_camarero) {
     $time = time();
-    $query = "INSERT into comandas (mesa, camareroapertura, horaapertura) values (?, ?, ?);";
+    $query = 'INSERT into comandas (mesa, camareroapertura, horaapertura) values (?, ?, ?);';
     $array = array($id_mesa, $id_camarero, $time);
     $res = query_from_database($query, $array);
     return $res;
@@ -31,6 +31,43 @@ function select_articulos() {
     return $res;
 }
 
-function select_articulos_from_comanda($id_comanda) {
-    $query = 'select lineascomanda.id, nombre from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda;';
+function  select_lineascomanda($id_mesa) {
+    $query = 'select lineascomanda.id as \'id\', articulos.nombre from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and mesa=? and horacierre=0';
+    $array = array($id_mesa);
+    $res = query_from_database($query, $array);
+    return $res;
+}
+
+function get_articulosPendientes(){
+    $array = array();
+    $res = query_from_database('Select * FROM lineascomanda WHERE tipo=1 and cocinero=NULL;', $array);
+    return $res;
+}
+
+function get_articulos_pendientes_de_cocinero($id){
+    $array = array($id);
+    $res = query_from_database('Select * FROM lineascomanda WHERE cocinero=?;', $array);
+    return $res;
+}
+
+function get_nombreArticulo($id_articulo){
+    $array = array($id_articulo);
+    $res = query_from_database('Select nombre FROM articulos WHERE id=?;', $array);
+    return $res;
+}
+
+function get_nombreMesa($id_mesa){
+    $array = array($id_mesa);
+    $res = query_from_database('Select nombre FROM mesas WHERE id=?;', $array);
+    return $res;
+}
+
+function iniciar_articulo($id_lineascomanda){
+    $array = array($_SESSION['id_usuario'], time(), $id_lineascomanda);
+    $res = query_from_database('INSERT INTO [lineascomanda] ([cocinero], [horainicio]) VALUES (?,?) WHERE id=?;', $array);
+}
+
+function finalizar_articulo($id_lineascomanda){
+    $array = array(time(), $id_lineascomanda);
+    $res = query_from_database('INSERT INTO [lineascomanda] ([horafinalizacion]) VALUES (?) WHERE id=?;', $array);
 }
