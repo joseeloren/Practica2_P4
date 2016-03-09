@@ -32,5 +32,5 @@ function select_articulos() {
 }
 
 function select_articulos_from_comanda($id_comanda) {
-    $query = 'select lineascomanda.id, nombre from articulos, lineascomanda where articulos.id=articulo;';
+    $query = 'select lineascomanda.id, nombre from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda;';
 }
