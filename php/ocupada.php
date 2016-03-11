@@ -13,28 +13,30 @@ function combobox_articulos() {
 
 function borrar_servir_comanda($id_mesa) {
 
-    echo '<table><tr>';
+
     $res = select_lineascomanda($id_mesa);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
-        echo "<tr>\n";
-        echo "<th>Mesa</th>";
-        echo "<th>Ocupacion</th>";
-        echo "</tr>";
+        echo '<form class="table" method="post" action="algo.php">';
+        echo "<div class=\"tr\">\n";
+        echo "<div class=\"th\">Producto</div>";
+        echo "<div class=\"th\">Servir</div>";
+        echo "<div class=\"th\">Eliminar</div>";
+        echo "</div>";
+
 
         foreach($res as $row){
-
-            echo "<tr>\n";
             $enlace = <<<FIN_HTML
-            <td>
-                <a style="font-size:15px" href="">
-                    $row[nombre]</a>
-            </td>
+            <div class="tr">
+        <div class="td">$row[nombre]</div>
+        <input class="td" type="radio" name="$row[id]_opcion" value="$row[id]_servir"/>
+        <input class="td" type="radio" name="$row[id]_opcion" value="$row[id]_eliminar"/>
+        </div>
 FIN_HTML;
             echo $enlace;
-            echo "\t<td>$row[Ocupacion]</td>\n";
-            echo "</tr>\n";
+
         }
+        echo '</form>';
 
     }
     echo '</table>';

@@ -18,7 +18,7 @@ if(isset($usuario) && isset($clave)) {
     if($res){
         $arr = $res->fetch(PDO::FETCH_NAMED);
         if (strcmp($arr['nombre'],'') != 0) {
-            echo "<p id=\"saludo_login\">¡Bienvenido $arr[nombre]!</p><a href=\"cerrar_session.php\">Cerrar sesión</a>";
+            echo "<div id=\"saludo_cerrar\"><p id=\"saludo_login\">¡Bienvenido $arr[nombre]!</p><a id=\"cerrar_session\" href=\"cerrar_session.php\">Cerrar sesión</a></div>";
             $_SESSION['usuario'] = $usuario;
             $_SESSION['clave'] = $clave;
             $_SESSION['nombre'] = $arr['nombre'];

@@ -2,6 +2,7 @@
 include_once 'common.php';
 include_once 'database.php';
 include_once 'ocupada.php';
+session_start();
 writeNav();
 if (strcmp($_GET['estado'], "Ocupada") == 0) {
     /*

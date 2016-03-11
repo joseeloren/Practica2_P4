@@ -32,7 +32,7 @@ function select_articulos() {
 }
 
 function  select_lineascomanda($id_mesa) {
-    $query = 'select lineascomanda.id as \'id\', articulos.nombre from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and mesa=? and horacierre=0';
+    $query = 'select lineascomanda.id as \'id\', articulos.nombre as \'nombre\' from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and mesa=? and horacierre=0';
     $array = array($id_mesa);
     $res = query_from_database($query, $array);
     return $res;
