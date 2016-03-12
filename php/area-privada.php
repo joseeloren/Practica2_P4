@@ -4,32 +4,25 @@ include_once 'queries.php';
 include_once 'list_show.php';
 session_start();
 writeNav();
-if (isset($_SESSION['usuario']) && isset($_SESSION['clave'])) {
-    $usuario = $_SESSION['usuario'];
-    $clave = $_SESSION['clave'];
+if (isset($_SESSION['id_usuario']) && isset($_SESSION['nombre_usuario']) && isset($_SESSION['tipo_usuario'])) {
+    echo escribir_bienvenida($_SESSION['nombre_usuario']);
+    show_list();
 }
-if(isset($_GET['usuario']) && isset($_GET['clave'])) {
-    $usuario = $_GET['usuario'];
-    $clave = $_GET['clave'];
-}
-
-if(isset($usuario) && isset($clave)) {
-    $res = select_name_type($usuario, $clave);
+elseif(isset($_POST['usuario']) && isset($_POST['clave'])) {
+    $res = select_name_type_id($_POST['usuario'], $_POST['clave']);
     if($res){
         $arr = $res->fetch(PDO::FETCH_NAMED);
-        if (strcmp($arr['nombre'],'') != 0) {
-            echo "<div id=\"saludo_cerrar\"><p id=\"saludo_login\">¡Bienvenido $arr[nombre]!</p><a id=\"cerrar_session\" href=\"cerrar_session.php\">Cerrar sesión</a></div>";
-            $_SESSION['usuario'] = $usuario;
-            $_SESSION['clave'] = $clave;
-            $_SESSION['nombre'] = $arr['nombre'];
-            $_SESSION['tipo_rol'] = $arr['tipo'];
-            $_SESSION['id_usuario'] = $arr['id'];
-            show_list($arr['tipo'], $arr['id'], $arr['nombre'],$usuario);
+        if (strcmp($arr['nombre_usuario'],'') != 0) {
+            $_SESSION['nombre_usuario'] = $arr['nombre_usuario'];
+            $_SESSION['tipo_usuario'] = $arr['tipo_usuario'];
+            $_SESSION['id_usuario'] = $arr['id_usuario'];
+            echo escribir_bienvenida($_SESSION['nombre_usuario']);
+            show_list();
         } else {
             writeBadLogin();
         }
     } else {
-      //Algo chungo ha pasado en la base de datos
+      echo '<p>ERROR EN LA BASE DE DATOS<\p>';
     }
 }
 else {

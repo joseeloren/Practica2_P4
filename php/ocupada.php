@@ -1,12 +1,12 @@
 <?php
 include_once 'queries.php';
 function combobox_articulos() {
-    echo '<select class="selector" name="articulo" form="lineacomanda">';
+    echo '<select class="selector" name="id_articulo" form="lineacomanda">';
     $res = select_articulos();
     if ($res) {
         $res->setFetchMode(PDO::FETCH_NAMED);
         foreach($res as $row)
-            echo "<option value=\"$row[id]\">$row[nombre]</option>";
+            echo "<option value=\"$row[id_articulo]\">$row[nombre]</option>";
     }
       echo '</select>';
 }
@@ -16,7 +16,7 @@ function borrar_servir_comanda($id_mesa) {
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
         echo '<table style="clear:both">';
-        echo '<form method="post" action="algo.php">';
+        echo '<form method="post" action="borrar_servir.php">';
         echo '<tr>';
         echo '<th>Producto</th>';
         echo '<th>Servir</th>';
@@ -24,18 +24,22 @@ function borrar_servir_comanda($id_mesa) {
         echo '</tr>';
 
 
+        $contador = 0;
+
         foreach($res as $row){
             $enlace = <<<FIN_HTML
             <tr>
-        <td>$row[nombre]</td>
-        <td><input type="radio" name="$row[id]_opcion" value="$row[id]_servir"/></td>
-        <td><input type="radio" name="$row[id]_opcion" value="$row[id]_eliminar"/></td>
+        <td>$row[nombre_articulo]</td>
+        <td><input type="radio" name="servir[$contador]" value="$row[id_lineas]"/></td>
+        <td><input type="radio" name="eliminar[$contador]" value="$row[id_lineas]"/></td>
         </tr>
 FIN_HTML;
             echo $enlace;
+            $contador++;
 
         }
         echo '</table>';
+        echo "<input type=\"hidden\" name=\"id_mesa\" value=\"$_POST[id_mesa]\"/>";
         echo '<input class="boton_fin" type="submit" value="Servir y/o eliminar"/>';
         echo '</form>';
 
@@ -56,10 +60,10 @@ function cerrar_cobrar_comanda($id_mesa) {
         $total = 0;
 
         foreach($res as $row){
-            $total += $row[pvp];
+            $total += $row['pvp'];
             $enlace = <<<FIN_HTML
             <tr>
-        <td>$row[nombre]</td>
+        <td>$row[articulo]</td>
         <td>$row[pvp]</td>
         </tr>
 FIN_HTML;

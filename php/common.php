@@ -73,3 +73,7 @@ FIN_HTML;
     echo $html;
 
 }
+
+function escribir_bienvenida($nombre_usuario) {
+    echo "<div id=\"saludo_cerrar\"><p id=\"saludo_login\">¡Bienvenido $nombre_usuario!</p><a id=\"cerrar_session\" href=\"cerrar_session.php\">Cerrar sesión</a></div>";
+}

@@ -1,8 +1,7 @@
 <?php
 include_once 'common.php';
 include_once 'database.php';
-include_once 'ocupada.php';
 include_once 'list_show.php';
 session_start();
 writeNav();
-show_table(NULL);
+show_table();

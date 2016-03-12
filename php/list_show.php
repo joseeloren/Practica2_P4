@@ -1,12 +1,13 @@
 <?php
-function show_list($type, $user_id, $nombre_usuario, $usuario) {
-    if ($type==1)
-        show_camarero_list($user_id,$nombre_usuario, $usuario, $type);
+include 'ocupada.php';
+function show_list() {
+    if ($_SESSION['tipo_usuario'])
+        show_camarero_list();
     else
         show_cocinero_list();
 }
 
-function show_camarero_list($user_id, $nombre_usuario, $usuario, $type) {
+function show_camarero_list() {
     echo '<table><tr>';
     $res=select_de_mesa();
     if($res){
@@ -21,12 +22,17 @@ function show_camarero_list($user_id, $nombre_usuario, $usuario, $type) {
             echo "<tr>\n";
             $enlace = <<<FIN_HTML
             <td>
-                <a style="font-size:15px" href="table.php?id_mesa=$row[id]&estado=$row[Ocupacion]">
-                    $row[Mesa]</a>
+                <form method="post" action="table.php">
+
+                <input type="hidden" name="id_mesa" value="$row[id_mesa]">
+                <input type="hidden" name="estado" value="$row[ocupacion]">
+                <input type="submit" value="$row[Mesa]"/>
+                </form>
+
             </td>
 FIN_HTML;
             echo $enlace;
-            echo "\t<td>$row[Ocupacion]</td>\n";
+            echo "\t<td>$row[ocupacion]</td>\n";
             echo "</tr>\n";
         }
 
@@ -84,35 +90,44 @@ T_HTML;
     }
 }
 
-function show_table($ocupacion) {
-    if (isset($_GET['estado']))
-        $ocupacion = $_GET['estado'];
+function show_table($ocupacion=NULL) {
+    if (isset($_POST['estado']))
+        $ocupacion = $_POST['estado'];
     if (strcmp($ocupacion, "Ocupada") == 0) {
-        /*
-        Cerrar y cobrar una comanda
-        */
-        combobox_articulos();
         //Añadir peticiones a una comanda
-        //<!--input type="hidden" value=$_GET[id_comanda]-->
+        if (isset($_GET['id_comanda']))
+            $id_comanda = $_POST['id_comanda'];
+        else {
+            $res = obtener_comanda_activa_de_mesa($_POST['id_mesa']);
+            $id_comanda = -1;
+            if ($res) {
+                foreach($res as $row){
+                    $id_comanda = $row['id_comanda'];
+                }
+            }
+        }
+        combobox_articulos();
         $formi = <<<FIN_HTML
-       <form action="area-privada.php" id="lineacomanda">
-
+       <form method="post" action="add_peticion.php" id="lineacomanda">
+        <input type="hidden" name="id_comanda" value="$id_comanda">
+        <input type="hidden" name="id_mesa" value="$_POST[id_mesa]">
         <input  class="button boton_peticion" type="submit" value="Añadir petición">
         </form>
 
 FIN_HTML;
         echo $formi;
+
         //Eliminar y servir peticiones de una comanda
-        borrar_servir_comanda($_GET['id_mesa']);
+        borrar_servir_comanda($_POST['id_mesa']);
 
         //Cerrar y cobrar una comanda
-        cerrar_cobrar_comanda($_GET['id_mesa']);
+        cerrar_cobrar_comanda($_POST['id_mesa']);
     }
     else {
         //Comenzar una nueva comanda
         $formi = <<<FIN_HTML
         <form action="add_comanda.php">
-                <input type="hidden" name="id_mesa" value=$_GET[id_mesa]>
+                <input type="hidden" name="id_mesa" value=$_POST[id_mesa]>
                 <input class="button boton_comanda" type="submit" value="Nueva comanda">
         </form>
 FIN_HTML;
