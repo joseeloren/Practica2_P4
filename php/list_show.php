@@ -115,10 +115,10 @@ FIN_HTML;
         echo $formi;
 
         //Eliminar y servir peticiones de una comanda
-        borrar_servir_comanda($_POST['id_mesa']);
+        borrar_servir_comanda($_POST['id_mesa'], $id_comanda);
 
         //Cerrar y cobrar una comanda
-        cerrar_cobrar_comanda($_POST['id_mesa']);
+        cerrar_cobrar_comanda($_POST['id_mesa'], $id_comanda);
     }
     else {
         //Comenzar una nueva comanda

@@ -6,7 +6,7 @@ function writeNav() {
         <head>
             <meta charset="utf-8" />
             <link rel="stylesheet" type="text/css" href="../css/estilo.css">
-            <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+            <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
             <title>Restaurante José</title>
         </head>
         <body id="body">

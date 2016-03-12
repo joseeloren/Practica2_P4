@@ -11,8 +11,8 @@ function combobox_articulos() {
       echo '</select>';
 }
 
-function borrar_servir_comanda($id_mesa) {
-    $res = select_lineascomanda($id_mesa);
+function borrar_servir_comanda($id_mesa, $id_comanda) {
+    $res = select_lineascomanda($id_comanda);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
         echo '<table style="clear:both">';
@@ -40,6 +40,7 @@ FIN_HTML;
         }
         echo '</table>';
         echo "<input type=\"hidden\" name=\"id_mesa\" value=\"$_POST[id_mesa]\"/>";
+        echo "<input type=\"hidden\" name=\"id_comanda\" value=\"$id_comanda\"/>";
         echo '<input class="boton_fin" type="submit" value="Servir y/o eliminar"/>';
         echo '</form>';
 
@@ -47,8 +48,8 @@ FIN_HTML;
     }
 }
 
-function cerrar_cobrar_comanda($id_mesa) {
-    $res = select_lineascomanda_servidas($id_mesa);
+function cerrar_cobrar_comanda($id_mesa, $id_comanda) {
+    $res = select_lineascomanda_servidas($id_comanda);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
         echo '<table style="clear:both">';
@@ -80,6 +81,7 @@ FIN_HTML;
         echo '<form method="post" action="cerrar_cobrar.php">';
         echo "<input type=\"hidden\" name=\"pvp\" value=\"$total\"/>";
         echo "<input type=\"hidden\" name=\"id_mesa\" value=\"$id_mesa\"/>";
+        echo "<input type=\"hidden\" name=\"id_comanda\" value=\"$id_comanda\"/>";
         echo '<input class="boton_cerrar" type="submit" value="Cerrar y cobrar">';
         echo '</form>';
 

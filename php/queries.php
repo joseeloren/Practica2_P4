@@ -38,16 +38,16 @@ function select_articulos() {
     return $res;
 }
 
-function  select_lineascomanda($id_mesa) {
-    $query = 'select lineascomanda.id as \'id_lineas\', articulos.nombre as \'nombre_articulo\' from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and mesa=? and horaservicio=0';
-    $array = array($id_mesa);
+function  select_lineascomanda($id_comanda) {
+    $query = 'select lineascomanda.id as \'id_lineas\', articulos.nombre as \'nombre_articulo\' from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and comanda=? and horaservicio=0';
+    $array = array($id_comanda);
     $res = query_from_database($query, $array);
     return $res;
 }
 
-function  select_lineascomanda_servidas($id_mesa) {
-    $query = 'select lineascomanda.id as id_lineas, articulos.nombre as articulo, articulos.pvp as pvp from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and mesa=? and horaservicio!=0';
-    $array = array($id_mesa);
+function  select_lineascomanda_servidas($id_comanda) {
+    $query = 'select lineascomanda.id as id_lineas, articulos.nombre as articulo, articulos.pvp as pvp from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and comanda=? and horaservicio>0';
+    $array = array($id_comanda);
     $res = query_from_database($query, $array);
     return $res;
 }
@@ -116,9 +116,14 @@ function query_eliminar($id_linea) {
 }
 
 function query_cerrar_cobrar() {
-    $query = 'UPDATE comandas SET camarerocierre=?, horacierre=?, pvp=? WHERE mesa=? AND horacierre=0;';
-    $time = time();
-    $array = array($_SESSION['id_usuario'],$time, $_POST['pvp'], $_POST['id_mesa']);
+    $query = 'DELETE FROM lineascomanda WHERE horaservicio=0 AND comanda=?;';
+    $array = array($_POST['id_comanda']);
     $res = query_from_database($query, $array);
-    return $res;
+    if ($res) {
+        $query = 'UPDATE comandas SET camarerocierre=?, horacierre=?, pvp=? WHERE mesa=? AND horacierre=0;';
+        $time = time();
+        $array = array($_SESSION['id_usuario'],$time, $_POST['pvp'], $_POST['id_mesa']);
+        $res = query_from_database($query, $array);
+        return $res;
+    }
 }
