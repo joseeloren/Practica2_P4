@@ -14,7 +14,7 @@ if (strcmp($_GET['estado'], "Ocupada") == 0) {
     //Añadir peticiones a una comanda
     //<!--input type="hidden" value=$_GET[id_comanda]-->
     $formi = <<<FIN_HTML
-   <form id="login" action="area-privada.php" id="lineacomanda">
+   <form style="float:right" id="login" action="area-privada.php" id="lineacomanda">
 
     <input class="button" type="submit" value="Añadir petición">
     </form>

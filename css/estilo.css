@@ -84,6 +84,8 @@
         width: 400px;
     }
 
+
+
     #localizacion {
         margin: auto;
         height: 750px;
@@ -98,6 +100,13 @@
 }
 
 @media screen, aural, braille, embossed, handheld, projection, screen, tty, tv {
+     #enviar_form {
+         display: block;
+        margin: auto;
+        margin-top:15px;
+        color: red;
+        padding: 10px;
+    }
     #foto-comida {
         float: left;
         margin-top: 10%;

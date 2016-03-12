@@ -1,7 +1,7 @@
 <?php
 include_once 'queries.php';
 function combobox_articulos() {
-    echo '<select id="login" style="float:left;margin:0;margin-top:25px" name="articulo" form="lineacomanda">';
+    echo '<select id="login" style="float:left;margin:0;margin-top:25px;display:inline-block;" name="articulo" form="lineacomanda">';
     $res = select_articulos();
     if ($res) {
         $res->setFetchMode(PDO::FETCH_NAMED);
@@ -12,32 +12,33 @@ function combobox_articulos() {
 }
 
 function borrar_servir_comanda($id_mesa) {
-
-
     $res = select_lineascomanda($id_mesa);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
-        echo '<form class="table" method="post" action="algo.php">';
-        echo "<div class=\"tr\">\n";
-        echo "<div class=\"th\">Producto</div>";
-        echo "<div class=\"th\">Servir</div>";
-        echo "<div class=\"th\">Eliminar</div>";
-        echo "</div>";
+        echo '<table>';
+        echo '<form method="post" action="algo.php">';
+        echo '<tr>';
+        echo '<th>Producto</th>';
+        echo '<th>Servir</th>';
+        echo '<th>Eliminar</th>';
+        echo '</tr>';
 
 
         foreach($res as $row){
             $enlace = <<<FIN_HTML
-            <div class="tr">
-        <div class="td">$row[nombre]</div>
-        <input class="td" type="radio" name="$row[id]_opcion" value="$row[id]_servir"/>
-        <input class="td" type="radio" name="$row[id]_opcion" value="$row[id]_eliminar"/>
-        </div>
+            <tr>
+        <td>$row[nombre]</td>
+        <td><input type="radio" name="$row[id]_opcion" value="$row[id]_servir"/></td>
+        <td><input type="radio" name="$row[id]_opcion" value="$row[id]_eliminar"/></td>
+        </tr>
 FIN_HTML;
             echo $enlace;
 
         }
+        echo '</table>';
+        echo '<input id="enviar_form" type="submit" value="Finalizar"/>';
         echo '</form>';
 
+
     }
-    echo '</table>';
 }
