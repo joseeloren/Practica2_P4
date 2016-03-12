@@ -83,3 +83,39 @@ T_HTML;
         }
     }
 }
+
+function show_table($ocupacion) {
+    if (isset($_GET['estado']))
+        $ocupacion = $_GET['estado'];
+    if (strcmp($ocupacion, "Ocupada") == 0) {
+        /*
+        Cerrar y cobrar una comanda
+        */
+        combobox_articulos();
+        //Añadir peticiones a una comanda
+        //<!--input type="hidden" value=$_GET[id_comanda]-->
+        $formi = <<<FIN_HTML
+       <form action="area-privada.php" id="lineacomanda">
+
+        <input  class="button boton_peticion" type="submit" value="Añadir petición">
+        </form>
+
+FIN_HTML;
+        echo $formi;
+        //Eliminar y servir peticiones de una comanda
+        borrar_servir_comanda($_GET['id_mesa']);
+
+        //Cerrar y cobrar una comanda
+        cerrar_cobrar_comanda($_GET['id_mesa']);
+    }
+    else {
+        //Comenzar una nueva comanda
+        $formi = <<<FIN_HTML
+        <form action="add_comanda.php">
+                <input type="hidden" name="id_mesa" value=$_GET[id_mesa]>
+                <input class="button boton_comanda" type="submit" value="Nueva comanda">
+        </form>
+FIN_HTML;
+        echo $formi;
+    }
+}

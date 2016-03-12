@@ -1,7 +1,7 @@
 <?php
 include_once 'queries.php';
 function combobox_articulos() {
-    echo '<select id="login" style="float:left;margin:0;margin-top:25px;display:inline-block;" name="articulo" form="lineacomanda">';
+    echo '<select class="selector" name="articulo" form="lineacomanda">';
     $res = select_articulos();
     if ($res) {
         $res->setFetchMode(PDO::FETCH_NAMED);
@@ -15,7 +15,7 @@ function borrar_servir_comanda($id_mesa) {
     $res = select_lineascomanda($id_mesa);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
-        echo '<table>';
+        echo '<table style="clear:both">';
         echo '<form method="post" action="algo.php">';
         echo '<tr>';
         echo '<th>Producto</th>';
@@ -36,7 +36,45 @@ FIN_HTML;
 
         }
         echo '</table>';
-        echo '<input id="enviar_form" type="submit" value="Finalizar"/>';
+        echo '<input class="boton_fin" type="submit" value="Servir y/o eliminar"/>';
+        echo '</form>';
+
+
+    }
+}
+
+function cerrar_cobrar_comanda($id_mesa) {
+    $res = select_lineascomanda_servidas($id_mesa);
+    if($res){
+        $res->setFetchMode(PDO::FETCH_NAMED);
+        echo '<table style="clear:both">';
+        echo '<form method="post" action="algo.php">';
+        echo '<tr>';
+        echo '<th>Producto</th>';
+        echo '<th>PVP</th>';
+        echo '</tr>';
+        $total = 0;
+
+        foreach($res as $row){
+            $total += $row[pvp];
+            $enlace = <<<FIN_HTML
+            <tr>
+        <td>$row[nombre]</td>
+        <td>$row[pvp]</td>
+        </tr>
+FIN_HTML;
+            echo $enlace;
+
+        }
+        $enlace = <<<FIN_HTML
+        <tr>
+        <td>TOTAL</td>
+        <td>$total</td>
+        </tr>
+FIN_HTML;
+        echo $enlace;
+        echo '</table>';
+        echo '<input class="boton_cerrar" type="submit" value="Cerrar y cobrar"/>';
         echo '</form>';
 
 

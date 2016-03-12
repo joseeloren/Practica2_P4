@@ -38,6 +38,13 @@ function  select_lineascomanda($id_mesa) {
     return $res;
 }
 
+function  select_lineascomanda_servidas($id_mesa) {
+    $query = 'select lineascomanda.id as \'id\', articulos.nombre as \'nombre\', articulos.pvp as \'pvp\' from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and mesa=? and camareroservicio!=NULL';
+    $array = array($id_mesa);
+    $res = query_from_database($query, $array);
+    return $res;
+}
+
 function get_articulosPendientes(){
     $array = array();
     $res = query_from_database('Select * FROM lineascomanda WHERE tipo=1 and cocinero=NULL;', $array);
