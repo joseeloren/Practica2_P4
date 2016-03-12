@@ -30,8 +30,8 @@ function borrar_servir_comanda($id_mesa) {
             $enlace = <<<FIN_HTML
             <tr>
         <td>$row[nombre_articulo]</td>
-        <td><input type="radio" name="servir[$contador]" value="$row[id_lineas]"/></td>
-        <td><input type="radio" name="eliminar[$contador]" value="$row[id_lineas]"/></td>
+        <td><input type="radio" name="servir[$contador]" value="$row[id_lineas]"></td>
+        <td><input type="radio" name="eliminar[$contador]" value="$row[id_lineas]"></td>
         </tr>
 FIN_HTML;
             echo $enlace;
@@ -52,7 +52,6 @@ function cerrar_cobrar_comanda($id_mesa) {
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
         echo '<table style="clear:both">';
-        echo '<form method="post" action="algo.php">';
         echo '<tr>';
         echo '<th>Producto</th>';
         echo '<th>PVP</th>';
@@ -78,7 +77,10 @@ FIN_HTML;
 FIN_HTML;
         echo $enlace;
         echo '</table>';
-        echo '<input class="boton_cerrar" type="submit" value="Cerrar y cobrar"/>';
+        echo '<form method="post" action="cerrar_cobrar.php">';
+        echo "<input type=\"hidden\" name=\"pvp\" value=\"$total\"/>";
+        echo "<input type=\"hidden\" name=\"id_mesa\" value=\"$id_mesa\"/>";
+        echo '<input class="boton_cerrar" type="submit" value="Cerrar y cobrar">';
         echo '</form>';
 
 

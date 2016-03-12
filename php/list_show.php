@@ -1,7 +1,7 @@
 <?php
 include 'ocupada.php';
 function show_list() {
-    if ($_SESSION['tipo_usuario'])
+    if ($_SESSION['tipo_usuario']==1)
         show_camarero_list();
     else
         show_cocinero_list();
@@ -23,7 +23,6 @@ function show_camarero_list() {
             $enlace = <<<FIN_HTML
             <td>
                 <form method="post" action="table.php">
-
                 <input type="hidden" name="id_mesa" value="$row[id_mesa]">
                 <input type="hidden" name="estado" value="$row[ocupacion]">
                 <input type="submit" value="$row[Mesa]"/>
@@ -93,24 +92,22 @@ T_HTML;
 function show_table($ocupacion=NULL) {
     if (isset($_POST['estado']))
         $ocupacion = $_POST['estado'];
+
+
     if (strcmp($ocupacion, "Ocupada") == 0) {
         //Añadir peticiones a una comanda
-        if (isset($_GET['id_comanda']))
-            $id_comanda = $_POST['id_comanda'];
-        else {
-            $res = obtener_comanda_activa_de_mesa($_POST['id_mesa']);
-            $id_comanda = -1;
-            if ($res) {
-                foreach($res as $row){
-                    $id_comanda = $row['id_comanda'];
-                }
-            }
+
+        $res = obtener_comanda_activa_de_mesa($_POST['id_mesa']);
+        if($res) {
+            foreach($res as $row)
+                $id_comanda = $row['id_comanda'];
         }
+
         combobox_articulos();
         $formi = <<<FIN_HTML
        <form method="post" action="add_peticion.php" id="lineacomanda">
-        <input type="hidden" name="id_comanda" value="$id_comanda">
         <input type="hidden" name="id_mesa" value="$_POST[id_mesa]">
+        <input type="hidden" name="id_comanda" value="$id_comanda">
         <input  class="button boton_peticion" type="submit" value="Añadir petición">
         </form>
 
@@ -126,8 +123,8 @@ FIN_HTML;
     else {
         //Comenzar una nueva comanda
         $formi = <<<FIN_HTML
-        <form action="add_comanda.php">
-                <input type="hidden" name="id_mesa" value=$_POST[id_mesa]>
+        <form method="post" action="add_comanda.php">
+                <input type="hidden" name="id_mesa" value="$_POST[id_mesa]">
                 <input class="button boton_comanda" type="submit" value="Nueva comanda">
         </form>
 FIN_HTML;

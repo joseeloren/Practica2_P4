@@ -49,7 +49,7 @@ function writeLoginBegin() {
     $html = <<<FIN_HTML
         <main>
             <section>
-                <form id="login" action="../php/area-privada.php">
+                <form id="login" method="post" action="../php/area-privada.php">
                     <p>Usuario:</p>
                     <input type="text" name="usuario"><br>
                     <p>Clave:</p>
