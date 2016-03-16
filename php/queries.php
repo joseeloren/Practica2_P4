@@ -4,8 +4,9 @@ function query_from_database($query, $array) {
     $db->exec('PRAGMA foreign_keys = ON;');
     $res=$db->prepare($query);
     $res->execute($array);
-    if ($res)
+    if ($res) {
         $res->setFetchMode(PDO::FETCH_NAMED);
+    }
     return $res;
 }
 function select_name_type_id($usuario, $clave) {
@@ -39,7 +40,7 @@ function select_articulos() {
 }
 
 function  select_lineascomanda($id_comanda) {
-    $query = 'select lineascomanda.id as \'id_lineas\', articulos.nombre as \'nombre_articulo\' from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and comanda=? and horaservicio=0';
+    $query = 'select lineascomanda.id as \'id_lineas\', articulos.nombre as \'nombre_articulo\' from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and comanda=? and horaservicio=0 and ((articulos.tipo=1 and horafinalizacion!=0) or(articulos.tipo=0));';
     $array = array($id_comanda);
     $res = query_from_database($query, $array);
     return $res;
@@ -54,13 +55,13 @@ function  select_lineascomanda_servidas($id_comanda) {
 
 function get_articulosPendientes(){
     $array = array();
-    $res = query_from_database('Select * FROM lineascomanda WHERE tipo=1 and cocinero=NULL;', $array);
+    $res = query_from_database('Select articulos.nombre as articulo, mesas.nombre as mesa, lineascomanda.id as id_lineascomanda FROM lineascomanda,articulos, comandas, mesas WHERE cocinero is null and articulos.tipo=1 and articulo=articulos.id and comandas.id=comanda and mesa=mesas.id;', $array);
     return $res;
 }
 
 function get_articulos_pendientes_de_cocinero($id){
     $array = array($id);
-    $res = query_from_database('Select * FROM lineascomanda WHERE cocinero=?;', $array);
+    $res = query_from_database('Select * FROM lineascomanda WHERE cocinero=? and horafinalizacion=0;', $array);
     return $res;
 }
 
@@ -76,12 +77,12 @@ function get_nombreMesa($id_mesa){
     return $res;
 }
 
-function iniciar_articulo($id_lineascomanda){
+function query_indicar_preparacion($id_lineascomanda){
     $array = array($_SESSION['id_usuario'], time(), $id_lineascomanda);
-    $res = query_from_database('UPDATE lineascomandas SET cocinero=?, horainicio=? WHERE id=?;', $array);
+    $res = query_from_database('UPDATE lineascomanda SET cocinero=?, horainicio=? WHERE id=?;', $array);
 }
 
-function finalizar_articulo($id_lineascomanda){
+function query_indicar_finalizacion($id_lineascomanda){
     $array = array(time(), $id_lineascomanda);
     $res = query_from_database('UPDATE lineascomanda SET horafinalizacion=? WHERE id=?;', $array);
 }
@@ -127,3 +128,5 @@ function query_cerrar_cobrar() {
         return $res;
     }
 }
+
+

@@ -3,8 +3,11 @@ include 'ocupada.php';
 function show_list() {
     if ($_SESSION['tipo_usuario']==1)
         show_camarero_list();
-    else
+    else{
+
         show_cocinero_list();
+    }
+
 }
 
 function show_camarero_list() {
@@ -40,6 +43,8 @@ FIN_HTML;
 }
 
 function show_cocinero_list() {
+    $html = "<form method=\"post\" action=\"acciones_cocinero.php\">";
+    echo $html;
     $cabecera = <<<T_HTML
     <table>
         <tr>
@@ -52,18 +57,19 @@ T_HTML;
     echo $cabecera;
     $res = get_articulosPendientes();
     if($res){
-        foreach($res as $game){
+        foreach($res as $row){
             $fila = <<<T_HTML
             <tr>
-            <td> {get_nombreArticulo($game[articulo])['nombre']} </td>
-            <td> {get_nombreMesa($game[mesa])[nombre]} </td>
-            <td>  </td>
+            <td> $row[articulo] </td>
+            <td> $row[mesa] </td>
+            <td> <input type="checkbox" name="preparar[]" value="$row[id_lineascomanda]"> </td>
             </tr>
 T_HTML;
             echo $fila;
         }
     }
     echo "</table>";
+
 
     $cabecera = <<<T_HTML
     <table>
@@ -82,11 +88,15 @@ T_HTML;
                 $nombrecito = $row['nombre'];
             $fila = "<tr>
             <td> $nombrecito </td>
-            <td>  </td>
+            <td> <input type=\"checkbox\" name=\"finalizar[]\" value=\"$game[id]\"> </td>
             </tr>";
             echo $fila;
         }
     }
+    echo "</table>";
+    $html = "<input type=\"submit\" value=\"Aceptar\"/>
+    </form>";
+    echo $html;
 }
 
 function show_table($ocupacion=NULL) {
