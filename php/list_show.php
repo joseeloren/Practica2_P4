@@ -28,7 +28,7 @@ function show_camarero_list() {
                 <form method="post" action="table.php">
                 <input type="hidden" name="id_mesa" value="$row[id_mesa]">
                 <input type="hidden" name="estado" value="$row[ocupacion]">
-                <input type="submit" value="$row[Mesa]"/>
+                <input class="boton_gen" type="submit" value="$row[Mesa]"/>
                 </form>
 
             </td>

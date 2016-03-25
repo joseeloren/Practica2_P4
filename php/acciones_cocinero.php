@@ -17,8 +17,5 @@
         }
     }
 
-
-
-
     header('Location: area-privada.php');
 

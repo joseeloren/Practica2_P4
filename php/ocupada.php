@@ -2,6 +2,7 @@
 include_once 'queries.php';
 prepare_database();
 function combobox_articulos() {
+    echo '<p class="clear_both" >Seleccione un artículo pedido por el cliente:<p>';
     echo '<select class="selector" name="id_articulo" form="lineacomanda">';
     $res = select_articulos();
     if ($res) {
@@ -13,6 +14,7 @@ function combobox_articulos() {
 }
 
 function borrar_servir_comanda($id_comanda) {
+    echo '<p>Aquí podrá servir ya un producto preparado o que no requiera preparación o eliminarlo, si el cliente ya no lo quiere:</p>';
     $res = select_lineascomanda($id_comanda);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
@@ -44,12 +46,11 @@ FIN_HTML;
         echo "<input type=\"hidden\" name=\"id_comanda\" value=\"$id_comanda\"/>";
         echo '<input class="boton_fin" type="submit" value="Servir y/o eliminar"/>';
         echo '</form>';
-
-
     }
 }
 
 function comandas_elaboracion($id_comanda) {
+    echo '<p class="clear_both">Aquí podrá ver los artículos pendientes o en elaboración por parte de la cocina:</p>';
     $res = select_lineascomanda_elaboracion($id_comanda);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
@@ -73,6 +74,7 @@ FIN_HTML;
 }
 
 function cerrar_cobrar_comanda($id_comanda) {
+    echo '<p> Aquí podrá ver los artículos ya servidos y su precio. Además puede cerrar la comanda y cobrarla:</p>';
     $res = select_lineascomanda_servidas($id_comanda);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);

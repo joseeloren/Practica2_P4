@@ -4,10 +4,12 @@ include_once 'list_show.php';
 session_start();
 writeNav();
 $algo = <<< FIN_HTML
-     <form class="clear_both" action="tabla.php">
-    <input type="text" name="platito"/>
-    <input class="boton_cerrar" type="submit" value="Buscar">
+    <div id="busqueda">
+     <form action="tabla.php">
+    <input type="text" name="platito" placeholder="Buscar..."/>
+    <input class="boton_gen" type="submit" value="Buscar">
     </form>
+    </div>
 FIN_HTML;
 echo $algo;
 $algo = <<< FIN_HTML
