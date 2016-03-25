@@ -43,7 +43,7 @@ FIN_HTML;
 }
 
 function show_cocinero_list() {
-    $html = "<div id=\"centrar_form\"><form method=\"post\" action=\"acciones_cocinero.php\">";
+    $html = "<form method=\"post\" action=\"acciones_cocinero.php\">";
     echo $html;
     $cabecera = <<<T_HTML
     <p class="clear_both">Aquí puede ver los artículos pedientes por cocinar:</p>
@@ -97,8 +97,8 @@ T_HTML;
         }
     }
     echo "</table>";
-    $html = "<input class=\"boton_gen\" type=\"submit\" value=\"Aceptar\"/>
-    </form> </div>";
+    $html = "<div id=\"centrar_botoncito\"><input class=\"boton_gen\" type=\"submit\" value=\"Aceptar\">
+    </div></form>";
     echo $html;
 }
 
