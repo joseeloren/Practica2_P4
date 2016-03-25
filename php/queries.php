@@ -1,8 +1,15 @@
 <?php
-function query_from_database($query, $array) {
+$db = 0;
+
+function prepare_database() {
+    global $db;
     $db = new PDO("sqlite:../datos.db");
     $db->exec('PRAGMA foreign_keys = ON;');
-    $res=$db->prepare($query);
+}
+
+function query_from_database($query, $array=array()) {
+    global $db;
+    $res= $db->prepare($query);
     $res->execute($array);
     if ($res) {
         $res->setFetchMode(PDO::FETCH_NAMED);
@@ -19,8 +26,7 @@ function select_name_type_id($usuario, $clave) {
 
 function select_de_mesa() {
     $query = 'select id as id_mesa, nombre as Mesa, \'Libre\' as ocupacion from mesas where id not in(SELECT mesas.id FROM mesas, comandas where mesas.id=mesa and horacierre=0) union SELECT mesas.id, nombre as Mesa, \'Ocupada\' as Ocupacion from mesas, comandas where mesas.id=mesa  and horacierre=0';
-    $array = array();
-    $res = query_from_database($query, $array);
+    $res = query_from_database($query);
     return $res;
 }
 
@@ -34,8 +40,7 @@ function new_comanda() {
 
 function select_articulos() {
     $query = 'SELECT id as id_articulo, nombre from Articulos where stock > 0;';
-    $array = array();
-    $res = query_from_database($query, $array);
+    $res = query_from_database($query);
     return $res;
 }
 
@@ -43,6 +48,21 @@ function  select_lineascomanda($id_comanda) {
     $query = 'select lineascomanda.id as \'id_lineas\', articulos.nombre as \'nombre_articulo\' from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and comanda=? and horaservicio=0 and ((articulos.tipo=1 and horafinalizacion!=0) or(articulos.tipo=0));';
     $array = array($id_comanda);
     $res = query_from_database($query, $array);
+    return $res;
+}
+
+function  select_lineascomanda_elaboracion($id_comanda) {
+    $query = 'select lineascomanda.id as id_lineascomanda, articulos.nombre as nombre_articulo, \'En elaboración\' as elaboracion from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and comanda=? and horaservicio=0 and articulos.tipo=1 and horafinalizacion=0 and horainicio!=0 UNION select lineascomanda.id as id_lineascomanda, articulos.nombre as nombre_articulo, \'Pendiente\' as elaboracion from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and comanda=? and horaservicio=0 and articulos.tipo=1 and horafinalizacion=0 and horainicio=0;';
+    $array = array($id_comanda,$id_comanda);
+    $res = query_from_database($query, $array);
+    return $res;
+}
+
+function select_buscar_plato($platito) {
+    $query = <<<FIN
+        SELECT nombre, pvp as pvp from articulos where nombre like '%$platito%';
+FIN;
+    $res = query_from_database($query);
     return $res;
 }
 
@@ -54,20 +74,13 @@ function  select_lineascomanda_servidas($id_comanda) {
 }
 
 function get_articulosPendientes(){
-    $array = array();
-    $res = query_from_database('Select articulos.nombre as articulo, mesas.nombre as mesa, lineascomanda.id as id_lineascomanda FROM lineascomanda,articulos, comandas, mesas WHERE cocinero is null and articulos.tipo=1 and articulo=articulos.id and comandas.id=comanda and mesa=mesas.id;', $array);
+    $res = query_from_database('Select articulos.nombre as articulo, mesas.nombre as mesa, lineascomanda.id as id_lineascomanda FROM lineascomanda,articulos, comandas, mesas WHERE cocinero is null and articulos.tipo=1 and articulo=articulos.id and comandas.id=comanda and mesa=mesas.id;');
     return $res;
 }
 
-function get_articulos_pendientes_de_cocinero($id){
-    $array = array($id);
-    $res = query_from_database('Select * FROM lineascomanda WHERE cocinero=? and horafinalizacion=0;', $array);
-    return $res;
-}
-
-function get_nombreArticulo($id_articulo){
-    $array = array($id_articulo);
-    $res = query_from_database('Select nombre FROM articulos WHERE id=?;', $array);
+function get_articulos_pendientes_de_cocinero(){
+    $array = array($_SESSION['id_usuario']);
+    $res = query_from_database('Select articulos.nombre as articulo, mesas.nombre as mesa, lineascomanda.id as id_comanda FROM lineascomanda,articulos,comandas, mesas WHERE articulos.id=articulo and cocinero=? and mesas.id=mesa and comandas.id=comanda and horafinalizacion=0;', $array);
     return $res;
 }
 

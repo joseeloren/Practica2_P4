@@ -1,6 +1,7 @@
 <?php
 include_once 'common.php';
 include_once 'queries.php';
+prepare_database();
 include_once 'list_show.php';
 session_start();
 writeNav();
@@ -28,3 +29,4 @@ elseif(isset($_POST['usuario']) && isset($_POST['clave'])) {
 else {
     writeLogin();
 }
+endPage();

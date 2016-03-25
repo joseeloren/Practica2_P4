@@ -1,5 +1,6 @@
 <?php
 include_once 'queries.php';
+prepare_database();
 function combobox_articulos() {
     echo '<select class="selector" name="id_articulo" form="lineacomanda">';
     $res = select_articulos();
@@ -11,12 +12,12 @@ function combobox_articulos() {
       echo '</select>';
 }
 
-function borrar_servir_comanda($id_mesa, $id_comanda) {
+function borrar_servir_comanda($id_comanda) {
     $res = select_lineascomanda($id_comanda);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
-        echo '<table style="clear:both">';
         echo '<form method="post" action="borrar_servir.php">';
+        echo '<table class="clear_both">';
         echo '<tr>';
         echo '<th>Producto</th>';
         echo '<th>Servir</th>';
@@ -48,7 +49,30 @@ FIN_HTML;
     }
 }
 
-function cerrar_cobrar_comanda($id_mesa, $id_comanda) {
+function comandas_elaboracion($id_comanda) {
+    $res = select_lineascomanda_elaboracion($id_comanda);
+    if($res){
+        $res->setFetchMode(PDO::FETCH_NAMED);
+        echo '<table style="clear:both">';
+        echo '<tr>';
+        echo '<th>Producto</th>';
+        echo '<th>¿Elaboración?</th>';
+        echo '</tr>';
+
+        foreach($res as $row){
+            $enlace = <<<FIN_HTML
+            <tr>
+        <td>$row[nombre_articulo]</td>
+        <td>$row[elaboracion]</td>
+        </tr>
+FIN_HTML;
+            echo $enlace;
+        }
+        echo '</table>';
+    }
+}
+
+function cerrar_cobrar_comanda($id_comanda) {
     $res = select_lineascomanda_servidas($id_comanda);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
@@ -80,7 +104,7 @@ FIN_HTML;
         echo '</table>';
         echo '<form method="post" action="cerrar_cobrar.php">';
         echo "<input type=\"hidden\" name=\"pvp\" value=\"$total\"/>";
-        echo "<input type=\"hidden\" name=\"id_mesa\" value=\"$id_mesa\"/>";
+        echo "<input type=\"hidden\" name=\"id_mesa\" value=\"$_POST[id_mesa]\"/>";
         echo "<input type=\"hidden\" name=\"id_comanda\" value=\"$id_comanda\"/>";
         echo '<input class="boton_cerrar" type="submit" value="Cerrar y cobrar">';
         echo '</form>';

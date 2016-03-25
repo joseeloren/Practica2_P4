@@ -402,6 +402,9 @@
     #dummy-image {
         min-height: 350px;
     }
+    .clear_both {
+        clear: both;
+    }
 
     .hide {
         display: none;

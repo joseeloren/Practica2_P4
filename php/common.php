@@ -19,7 +19,7 @@ function writeNav() {
                             <a href="../index.html">Inicio</a>
                         </li>
                         <li>
-                            <a href="../html/tabla.html">Platos</a>
+                            <a href="../php/tabla.php">Platos</a>
                         </li>
                         <li>
                             <a href="../html/localizacion.html">Localización</a>
@@ -32,6 +32,15 @@ function writeNav() {
             </header>
 FIN_NAV;
     echo $nav;
+}
+
+function endPage() {
+    $name = <<<FIN_HTML
+    </div>
+    </body>
+    </html>
+FIN_HTML;
+    echo $name;
 }
 
 function writeBadLogin() {

@@ -11,7 +11,7 @@ function show_list() {
 }
 
 function show_camarero_list() {
-    echo '<table><tr>';
+    echo '<table>';
     $res=select_de_mesa();
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
@@ -57,6 +57,7 @@ T_HTML;
     echo $cabecera;
     $res = get_articulosPendientes();
     if($res){
+
         foreach($res as $row){
             $fila = <<<T_HTML
             <tr>
@@ -65,6 +66,7 @@ T_HTML;
             <td> <input type="checkbox" name="preparar[]" value="$row[id_lineascomanda]"> </td>
             </tr>
 T_HTML;
+
             echo $fila;
         }
     }
@@ -75,20 +77,19 @@ T_HTML;
     <table>
         <tr>
             <th>Artículo en Elaboración</th>
+            <th>Mesa</th>
             <th>Indicar Finalización</th>
         </tr>
 T_HTML;
 
     echo $cabecera;
-    $res = get_articulos_pendientes_de_cocinero($_SESSION['id_usuario']);
+    $res = get_articulos_pendientes_de_cocinero();
     if($res){
-        foreach($res as $game){
-            $nombre_art = get_nombreArticulo($game['articulo']);
-            foreach ($nombre_art as $row)
-                $nombrecito = $row['nombre'];
+        foreach($res as $row){
             $fila = "<tr>
-            <td> $nombrecito </td>
-            <td> <input type=\"checkbox\" name=\"finalizar[]\" value=\"$game[id]\"> </td>
+            <td> $row[articulo] </td>
+            <td> $row[mesa] </td>
+            <td> <input type=\"checkbox\" name=\"finalizar[]\" value=\"$row[id_comanda]\"> </td>
             </tr>";
             echo $fila;
         }
@@ -105,8 +106,8 @@ function show_table($ocupacion=NULL) {
 
 
     if (strcmp($ocupacion, "Ocupada") == 0) {
-        //Añadir peticiones a una comanda
 
+        //Añadir peticiones a una comanda
         $res = obtener_comanda_activa_de_mesa($_POST['id_mesa']);
         if($res) {
             foreach($res as $row)
@@ -124,11 +125,14 @@ function show_table($ocupacion=NULL) {
 FIN_HTML;
         echo $formi;
 
+        //Comandas en elaboración
+        comandas_elaboracion($id_comanda);
+
         //Eliminar y servir peticiones de una comanda
-        borrar_servir_comanda($_POST['id_mesa'], $id_comanda);
+        borrar_servir_comanda($id_comanda);
 
         //Cerrar y cobrar una comanda
-        cerrar_cobrar_comanda($_POST['id_mesa'], $id_comanda);
+        cerrar_cobrar_comanda($id_comanda);
     }
     else {
         //Comenzar una nueva comanda
