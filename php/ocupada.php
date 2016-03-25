@@ -14,7 +14,7 @@ function combobox_articulos() {
 }
 
 function borrar_servir_comanda($id_comanda) {
-    echo '<p>Aquí podrá servir ya un producto preparado o que no requiera preparación o eliminarlo, si el cliente ya no lo quiere:</p>';
+    echo '<p>Aquí podrá servir un producto ya preparado o que no requiera preparación o eliminarlo, si el cliente ya no lo quiere:</p>';
     $res = select_lineascomanda($id_comanda);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);

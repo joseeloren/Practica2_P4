@@ -4,7 +4,7 @@ include_once 'list_show.php';
 session_start();
 writeNav();
 $algo = <<< FIN_HTML
-    <div id="busqueda">
+    <div id="center_form">
      <form action="tabla.php">
     <input type="text" name="platito" placeholder="Buscar..."/>
     <input class="boton_gen" type="submit" value="Buscar">

@@ -43,14 +43,15 @@ FIN_HTML;
 }
 
 function show_cocinero_list() {
-    $html = "<form method=\"post\" action=\"acciones_cocinero.php\">";
+    $html = "<div id=\"centrar_form\"><form method=\"post\" action=\"acciones_cocinero.php\">";
     echo $html;
     $cabecera = <<<T_HTML
+    <p class="clear_both">Aquí puede ver los artículos pedientes por cocinar:</p>
     <table>
         <tr>
             <th>Nombre de artículo</th>
             <th>Mesa</th>
-            <th>Indicar inicio</th>
+            <th>¿Empezar a elaborar?</th>
         </tr>
 T_HTML;
 
@@ -74,11 +75,12 @@ T_HTML;
 
 
     $cabecera = <<<T_HTML
+    <p>Aquí puede encontrar los artículos en elaboración por usted. Indique si los ha acabado de cocinar:</p>
     <table>
         <tr>
             <th>Artículo en Elaboración</th>
             <th>Mesa</th>
-            <th>Indicar Finalización</th>
+            <th>¿Finalizar?</th>
         </tr>
 T_HTML;
 
@@ -95,8 +97,8 @@ T_HTML;
         }
     }
     echo "</table>";
-    $html = "<input type=\"submit\" value=\"Aceptar\"/>
-    </form>";
+    $html = "<input class=\"boton_gen\" type=\"submit\" value=\"Aceptar\"/>
+    </form> </div>";
     echo $html;
 }
 
@@ -136,11 +138,14 @@ FIN_HTML;
     }
     else {
         //Comenzar una nueva comanda
+        echo '<p class="clear_both">Haga click en el botón "Nueva comanda" para comenzar una comanda en esta mesa:</p>';
         $formi = <<<FIN_HTML
-        <form method="post" action="add_comanda.php">
+        <div id="center_form">
+        <form class="clear_both" method="post" action="add_comanda.php">
                 <input type="hidden" name="id_mesa" value="$_POST[id_mesa]">
-                <input class="button boton_comanda" type="submit" value="Nueva comanda">
+                <input class="boton_gen" type="submit" value="Nueva comanda">
         </form>
+        </div>
 FIN_HTML;
         echo $formi;
     }
