@@ -2,19 +2,19 @@
 include_once 'common.php';
 include_once 'list_show.php';
 session_start();
-writeNav();
+$buscar_js = '<script type="text/javascript" src="../js/buscar-plato.js"></script>;';
+writeNav($buscar_js);
 $algo = <<< FIN_HTML
     <div id="center_form">
      <form action="tabla.php">
-    <input type="text" name="platito" placeholder="Buscar..."/>
-    <input class="boton_gen" type="submit" value="Buscar">
+    <input type="text" id="buscador" name="platito" placeholder="Buscar..."/>
     </form>
     </div>
 FIN_HTML;
 echo $algo;
 $algo = <<< FIN_HTML
  <main>
-            <table>
+            <table id="productos">
                 <tr>
                 	<th>Título</th>
                 	<th>PVP</th>
