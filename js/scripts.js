@@ -1,7 +1,8 @@
 $(document).ready(function(){
     $('#borrar_servir').on('click','.listoParaServir',servirProducto);
     $('#borrar_servir').on('click',".eliminarArticulo",eliminarProducto);
-    $('select').bind('change keydown', incluirProducto);
+    $('select').selectmenu();('change keydown', incluirProducto);
+    $( 'select' ).on( "selectmenuselect", incluirProducto);
 });
 
 

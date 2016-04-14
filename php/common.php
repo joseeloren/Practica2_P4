@@ -10,8 +10,10 @@ function writeNav() {
             <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
             <script src="../js/comenzarElaboracion.js">
             </script>
-            <script src="../js/scripts.js">
-            </script>
+            <script src="../js/scripts.js"></script>
+            <script src="../js/buscar-plato.js"></script>
+            <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
             <title>Restaurante José</title>
         </head>
         <body id="body">
