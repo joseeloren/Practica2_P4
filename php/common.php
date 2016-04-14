@@ -1,5 +1,5 @@
 <?php
-function writeNav($js) {
+function writeNav() {
     $nav = <<<FIN_NAV
     <!doctype html>
     <html>
@@ -7,7 +7,11 @@ function writeNav($js) {
             <meta charset="utf-8" />
             <link rel="stylesheet" type="text/css" href="../css/estilo.css">
             <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
-            $js
+            <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+            <script src="../js/comenzarElaboracion.js">
+            </script>
+            <script src="../js/scripts.js">
+            </script>
             <title>Restaurante José</title>
         </head>
         <body id="body">

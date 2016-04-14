@@ -43,8 +43,9 @@ FIN_HTML;
 }
 
 function show_cocinero_list() {
+
     $html = "<form method=\"post\" action=\"acciones_cocinero.php\">";
-    echo $html;
+    //echo $html;
     $cabecera = <<<T_HTML
     <p class="clear_both">Aquí puede ver los artículos pedientes por cocinar:</p>
     <table>
@@ -61,10 +62,10 @@ T_HTML;
 
         foreach($res as $row){
             $fila = <<<T_HTML
-            <tr>
+            <tr id="pendiente$row[id_lineascomanda]">
             <td> $row[articulo] </td>
             <td> $row[mesa] </td>
-            <td> <input type="checkbox" name="preparar[]" value="$row[id_lineascomanda]"> </td>
+            <td> <button class="botonesP" id_usuario="$_SESSION[id_usuario]"  id_lineascomanda="$row[id_lineascomanda]" articulo="$row[articulo]" mesa="$row[mesa]">Hacer</button> </td>
             </tr>
 T_HTML;
 
@@ -76,7 +77,7 @@ T_HTML;
 
     $cabecera = <<<T_HTML
     <p>Aquí puede encontrar los artículos en elaboración por usted. Indique si los ha acabado de cocinar:</p>
-    <table>
+    <table id="tablaHaciendo">
         <tr>
             <th>Artículo en Elaboración</th>
             <th>Mesa</th>
@@ -88,10 +89,10 @@ T_HTML;
     $res = get_articulos_pendientes_de_cocinero();
     if($res){
         foreach($res as $row){
-            $fila = "<tr>
+            $fila = "<tr id=haciendo$row[id_comanda]>
             <td> $row[articulo] </td>
             <td> $row[mesa] </td>
-            <td> <input type=\"checkbox\" name=\"finalizar[]\" value=\"$row[id_comanda]\"> </td>
+            <td> <button class=\"botonesF\" id_lineascomanda=\"$row[id_comanda]\"> Finalizar</button> </td>
             </tr>";
             echo $fila;
         }
@@ -99,7 +100,7 @@ T_HTML;
     echo "</table>";
     $html = "<div id=\"centrar_botoncito\"><input class=\"boton_gen\" type=\"submit\" value=\"Aceptar\">
     </div></form>";
-    echo $html;
+    //echo $html;
 }
 
 function show_table($ocupacion=NULL) {
@@ -116,7 +117,7 @@ function show_table($ocupacion=NULL) {
                 $id_comanda = $row['id_comanda'];
         }
 
-        combobox_articulos();
+        combobox_articulos($id_comanda);
         $formi = <<<FIN_HTML
        <form method="post" action="add_peticion.php" id="lineacomanda">
         <input type="hidden" name="id_mesa" value="$_POST[id_mesa]">
@@ -125,7 +126,7 @@ function show_table($ocupacion=NULL) {
         </form>
 
 FIN_HTML;
-        echo $formi;
+        //echo $formi;
 
         //Comandas en elaboración
         comandas_elaboracion($id_comanda);

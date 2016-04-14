@@ -2,8 +2,7 @@
 include_once 'common.php';
 include_once 'list_show.php';
 session_start();
-$buscar_js = '<script type="text/javascript" src="../js/buscar-plato.js"></script>;';
-writeNav($buscar_js);
+writeNav();
 $algo = <<< FIN_HTML
     <div id="center_form">
      <form action="tabla.php">

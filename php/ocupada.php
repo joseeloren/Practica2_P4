@@ -1,9 +1,9 @@
 <?php
 include_once 'queries.php';
 prepare_database();
-function combobox_articulos() {
+function combobox_articulos($id_comanda) {
     echo '<p class="clear_both" >Seleccione un artículo pedido por el cliente:<p>';
-    echo '<select class="selector" name="id_articulo" form="lineacomanda">';
+    echo '<select class="selector" name="id_articulo" id_camarero="'.$_SESSION['id_usuario'].'" id_comanda="'.$id_comanda.'">';
     $res = select_articulos();
     if ($res) {
         $res->setFetchMode(PDO::FETCH_NAMED);
@@ -18,8 +18,8 @@ function borrar_servir_comanda($id_comanda) {
     $res = select_lineascomanda($id_comanda);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
-        echo '<form method="post" action="borrar_servir.php">';
-        echo '<table class="clear_both">';
+
+        echo '<table id="borrar_servir" class="clear_both">';
         echo '<tr>';
         echo '<th>Producto</th>';
         echo '<th>Servir</th>';
@@ -31,10 +31,10 @@ function borrar_servir_comanda($id_comanda) {
 
         foreach($res as $row){
             $enlace = <<<FIN_HTML
-            <tr>
+            <tr id ="listoParaServir$row[id_lineas]">
         <td>$row[nombre_articulo]</td>
-        <td><input type="radio" name="servir[$contador]" value="$row[id_lineas]"></td>
-        <td><input type="radio" name="eliminar[$contador]" value="$row[id_lineas]"></td>
+        <td><button class="listoParaServir" id_lineascomanda="$row[id_lineas]" id_camarero="$_SESSION[id_usuario]">Servir</button></td>
+        <td><button class="eliminarArticulo" id_lineascomanda="$row[id_lineas]" >Eliminar</button></td>
         </tr>
 FIN_HTML;
             echo $enlace;
@@ -42,10 +42,7 @@ FIN_HTML;
 
         }
         echo '</table>';
-        echo "<input type=\"hidden\" name=\"id_mesa\" value=\"$_POST[id_mesa]\"/>";
-        echo "<input type=\"hidden\" name=\"id_comanda\" value=\"$id_comanda\"/>";
-        echo '<input class="boton_fin" type="submit" value="Servir y/o eliminar"/>';
-        echo '</form>';
+
     }
 }
 
@@ -54,7 +51,7 @@ function comandas_elaboracion($id_comanda) {
     $res = select_lineascomanda_elaboracion($id_comanda);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
-        echo '<table style="clear:both">';
+        echo '<table id="elaboracion" style="clear:both">';
         echo '<tr>';
         echo '<th>Producto</th>';
         echo '<th>¿Elaboración?</th>';
@@ -78,7 +75,7 @@ function cerrar_cobrar_comanda($id_comanda) {
     $res = select_lineascomanda_servidas($id_comanda);
     if($res){
         $res->setFetchMode(PDO::FETCH_NAMED);
-        echo '<table style="clear:both">';
+        echo '<table style="clear:both" id="tablaProductosServidos">';
         echo '<tr>';
         echo '<th>Producto</th>';
         echo '<th>PVP</th>';
@@ -99,7 +96,7 @@ FIN_HTML;
         $enlace = <<<FIN_HTML
         <tr>
         <td>TOTAL</td>
-        <td>$total</td>
+        <td id="precioTotal">$total</td>
         </tr>
 FIN_HTML;
         echo $enlace;

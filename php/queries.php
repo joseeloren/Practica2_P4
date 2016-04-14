@@ -83,6 +83,11 @@ function get_articulos_pendientes_de_cocinero(){
     $res = query_from_database('Select articulos.nombre as articulo, mesas.nombre as mesa, lineascomanda.id as id_comanda FROM lineascomanda,articulos,comandas, mesas WHERE articulos.id=articulo and cocinero=? and mesas.id=mesa and comandas.id=comanda and horafinalizacion=0;', $array);
     return $res;
 }
+function get_articulos_pendientes_de_cocinero_concreto($id_lineascomanda){
+    $array = array($id_lineascomanda, $_SESSION['id_usuario']);
+    $res = query_from_database('Select articulos.nombre as articulo, mesas.nombre as mesa, lineascomanda.id as id_comanda FROM lineascomanda,articulos,comandas, mesas WHERE lineascomanda.id= ? articulos.id=articulo and cocinero=? and mesas.id=mesa and comandas.id=comanda and horafinalizacion=0;', $array);
+    return $res;
+}
 
 function get_nombreMesa($id_mesa){
     $array = array($id_mesa);
