@@ -1,12 +1,11 @@
 window.onload = function() {
-    var buscar = document.getElementById("buscador");
     function actualiza_platos() {
-        var platos = document.getElementById("productos").childNodes[1].childNodes;
-        for(var i=2; i<platos.length;i=i+2){
-            var plato = platos[i].childNodes[1].firstChild.nodeValue;
-            platos[i].style.display =(plato.toLowerCase().indexOf(buscar.value) > -1)  ? 'table-row' : 'none';
-        }
-        console.log("entro");
+        var buscar = $(this).val();
+        $('#productos').children().children().each(function(index) {
+            if(index == 0) return;
+            var plato = $(this).children(':first').text();
+            (plato.toLowerCase().indexOf(buscar) > -1) ? $(this).show() : $(this).hide();
+        });
     }
-    buscar.onkeydown = actualiza_platos;
+    $('#buscador').on('keyup',actualiza_platos);
 }

@@ -46,7 +46,6 @@ function indicarFinalizacion() {
 }
 
 $(document).ready(function(){
-    console.log("creo eventos");
     $('.botonesP').on('click', indicarElaboracion);
     $('.botonesF').on('click', indicarFinalizacion);
 });
