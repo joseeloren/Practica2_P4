@@ -1,11 +1,10 @@
 $(document).ready(function(){
     $('#borrar_servir').on('click','.listoParaServir',servirProducto);
     $('#borrar_servir').on('click',".eliminarArticulo",eliminarProducto);
-    $('select').selectmenu();('change keydown', incluirProducto);
-    $( 'select' ).on( "selectmenuselect", incluirProducto);
+    $('.boton_peticion').on('click', incluirProducto);
 });
 
-
+tecla = -1;
 
 function servirProducto(){
     var id_lineascomanda = $(this).attr('id_lineascomanda');
@@ -25,7 +24,7 @@ function servirProducto(){
 
              $('#precioTotal').text(precio);
           }else{
-             alert('Error:'+res.message);
+             alert('Error: '+res.message);
           }
        },
        error: function(res){
@@ -45,20 +44,20 @@ function eliminarProducto(){
           if(res.deleted){
              $('#listoParaServir'+id_lineascomanda).remove();
           }else{
-             alert('Error:'+res.message);
+             alert('Error: '+res.message);
           }
        },
        error: function(res){
-          alert('Error:'+res);
+          alert('Error: '+res);
        }
     });
 }
 
 function incluirProducto(){
-    var nombre_articulo = $(this).children('option:selected').text();
-    var id_articulo = $(this).children('option:selected').val();
-    var id_comanda = $(this).attr('id_comanda');
-    var id_camarero = $(this).attr('id_camarero');
+    var nombre_articulo = $('select').children('option:selected').text();
+    var id_articulo = $('select').children('option:selected').val();
+    var id_comanda = $('select').attr('id_comanda');
+    var id_camarero = $('select').attr('id_camarero');
     $.ajax({
        url: "incluir_producto_json.php",
        type: "POST",
@@ -82,3 +81,70 @@ function incluirProducto(){
        }
     });
 }
+
+function indicarElaboracion() {
+    var id_usuario = $(this).attr("id_usuario");
+    var id_lineascomanda = $(this).attr("id_lineascomanda");
+    var articulo = $(this).attr("articulo");
+    var mesa =  $(this).attr("mesa");
+     $.ajax({
+        url: "../php/indicar_elaboracion_json.php",
+        type: "POST",
+        data: JSON.stringify({"id":id_lineascomanda,"idUser":id_usuario}),
+        dataType: "json",
+        success: function(res){
+          if(res.modified){
+           $('#pendiente'+id_lineascomanda).remove();
+            $('#tablaHaciendo').append($('<tr id="haciendo'+id_lineascomanda+'"><td>'+ articulo+'</td><td>'+mesa+'</td><td><button id="boton'+id_lineascomanda+'" class ="botonesF"  id_lineascomanda="'+id_lineascomanda+'"> Finalizar</button> </td>'));
+            $('#boton'+id_lineascomanda).on('click', indicarFinalizacion);
+            }else{
+
+            }
+
+           },
+           error: function(res){
+
+           }
+        });
+}
+
+function indicarFinalizacion() {
+     var id_lineascomanda = $(this).attr("id_lineascomanda");
+     $.ajax({
+        url: "../php/indicar_finalizacion_json.php",
+        type: "POST",
+        data: JSON.stringify({"id":id_lineascomanda}),
+        dataType: "json",
+        success: function(res){
+          if(res.modified){
+           $('#haciendo'+id_lineascomanda).remove();
+            }else{
+
+            }
+
+           },
+           error: function(res){
+
+           }
+        });
+}
+
+$(document).ready(function(){
+    $('.botonesP').on('click', indicarElaboracion);
+    $('.botonesF').on('click', indicarFinalizacion);
+});
+
+window.onload = function() {
+    function actualiza_platos() {
+        var buscar = $(this).val();
+        $('#productos').children().children().each(function(index) {
+            if(index == 0) return;
+            var plato = $(this).children(':first').text();
+            (plato.toLowerCase().indexOf(buscar) > -1) ? $(this).show() : $(this).hide();
+        });
+    }
+    $('#buscador').on('keyup',actualiza_platos);
+}
+
+
+

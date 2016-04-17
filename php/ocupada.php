@@ -2,7 +2,7 @@
 include_once 'queries.php';
 prepare_database();
 function combobox_articulos($id_comanda) {
-    echo '<p class="clear_both" >Seleccione un artículo pedido por el cliente:<p>';
+    echo '<p class="clear_both" >Seleccione, solo haciendo click, un artículo pedido por el cliente:<p>';
     echo '<select class="selector" name="id_articulo" id_camarero="'.$_SESSION['id_usuario'].'" id_comanda="'.$id_comanda.'">';
     $res = select_articulos();
     if ($res) {
@@ -11,6 +11,7 @@ function combobox_articulos($id_comanda) {
             echo "<option value=\"$row[id_articulo]\">$row[nombre]</option>";
     }
       echo '</select>';
+    echo '<input  class="button boton_peticion" type="submit" value="Añadir petición">';
 }
 
 function borrar_servir_comanda($id_comanda) {

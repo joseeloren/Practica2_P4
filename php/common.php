@@ -8,12 +8,7 @@ function writeNav() {
             <link rel="stylesheet" type="text/css" href="../css/estilo.css">
             <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
             <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-            <script src="../js/comenzarElaboracion.js">
-            </script>
             <script src="../js/scripts.js"></script>
-            <script src="../js/buscar-plato.js"></script>
-            <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-            <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
             <title>Restaurante José</title>
         </head>
         <body id="body">
@@ -23,13 +18,13 @@ function writeNav() {
                 <nav>
                     <ul>
                         <li>
-                            <a href="../index.html">Inicio</a>
+                            <a href="../php/index.php">Inicio</a>
                         </li>
                         <li>
                             <a href="../php/tabla.php">Platos</a>
                         </li>
                         <li>
-                            <a href="../html/localizacion.html">Localización</a>
+                            <a href="../php/localizacion.php">Localización</a>
                         </li>
                         <li>
                             <a href="../php/area-privada.php">Área Privada</a>
@@ -79,7 +74,6 @@ FIN_HTML;
 
 function writeLoginEnd() {
     $html = <<<FIN_HTML
-    <a id="go-top" href="#body">Ir arriba</a>
             </section>
         </main>
         </div>
