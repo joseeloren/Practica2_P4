@@ -18,9 +18,7 @@ function query_from_database($query, $array=array()) {
 }
 
 function select_buscar_plato() {
-     $query = <<<FIN
-         SELECT nombre, pvp as pvp from articulos';
-    FIN;
+     $query = 'SELECT nombre, pvp as pvp from articulos;';
      $res = query_from_database($query);
      return $res;
 }
