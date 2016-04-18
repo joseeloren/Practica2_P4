@@ -1,6 +1,4 @@
 <?php
-include_once 'queries.php';
-prepare_database();
 $res = new stdClass();
 $res->modified=false; //Formato objeto con propiedad deleted (por defecto a false)
 $res->message='';

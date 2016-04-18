@@ -1,5 +1,5 @@
 <?php
-include_once 'common.php';
+include_once '../lib.php';
 include_once 'queries.php';
 prepare_database();
 include_once 'list_show.php';
