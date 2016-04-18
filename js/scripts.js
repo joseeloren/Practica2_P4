@@ -8,14 +8,15 @@ $(document).ready(function(){
     $('#buscador').on('keyup',actualiza_platos);
     if($('.n_comanda').length)
         $('.ocupada').hide();
-    if($('#user').text == '')
+    if($('#user').val() === "") {
         $('#identifi').hide();
+    }
     $('#user').on('keyup', comprobar_campos);
     $('#pass').on('keyup', comprobar_campos);
 });
 
 function comprobar_campos() {
-    if($('#user').text.length > 0 && $('#pass').text.length > 0)
+    if($('#user').val() !== "" && $('#pass').val() !== "")
         $('#identifi').show();
     else
         $('#identifi').hide();
