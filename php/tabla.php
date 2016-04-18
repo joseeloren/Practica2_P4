@@ -20,7 +20,7 @@ $algo = <<< FIN_HTML
                 </tr>
 FIN_HTML;
 echo $algo;
-$res = select_buscar_plato("");
+$res = select_buscar_plato();
 if($res) {
     foreach($res as $row) {
         $algo = <<< FIN_HTML

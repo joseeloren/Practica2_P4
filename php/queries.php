@@ -16,6 +16,15 @@ function query_from_database($query, $array=array()) {
     }
     return $res;
 }
+
+function select_buscar_plato() {
+     $query = <<<FIN
+         SELECT nombre, pvp as pvp from articulos';
+    FIN;
+     $res = query_from_database($query);
+     return $res;
+}
+
 function select_name_type_id($usuario, $clave) {
     $query = 'SELECT id as id_usuario, nombre as nombre_usuario,  tipo as tipo_usuario FROM usuarios where usuario=? and clave=?;';
     $md5 = md5($clave);

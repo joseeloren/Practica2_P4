@@ -1,104 +1,3 @@
-@media print {
-    p {
-       text-align: justify;
-        margin-bottom: 10px;
-    }
-
-    .center {
-        text-align: center;
-    }
-
-    body {
-        padding: 10px;
-    }
-
-    * {
-        text-align: center;
-        font-family: serif;
-        font-size: 20px;
-    }
-
-    ul, ol {
-        display: inline-block;
-        position: relative;
-        margin: auto;
-        margin-bottom: 10px;
-    }
-
-    nav, #dummy-image, #go-top {
-        display: none;
-    }
-
-    h3 + p  {
-        text-align: center;
-        margin: auto;
-    }
-
-    li {
-        text-decoration: none;
-        text-align: left;
-    }
-
-    #titulo-comida {
-        text-transform: uppercase;
-    }
-
-    table {
-        margin: auto;
-    }
-
-    .hide {
-        display: none;
-    }
-
-    h3 {
-        margin: auto;
-        margin-top: 23px;
-    }
-
-    a{
-        font-family: serif;
-        color:black;
-    }
-
-    h2  {
-        clear: both;
-        font-size: 28px;
-        margin: auto;
-    }
-
-    h1 {
-        font-size: 30px;
-        text-decoration: underline;
-    }
-
-    #foto-comida {
-        height: 63%;
-        width: 63%;
-    }
-
-    img {
-        display: block;
-        margin: auto;
-        height: 400px;
-        width: 400px;
-    }
-
-
-
-    #localizacion {
-        margin: auto;
-        height: 750px;
-        width: 750px;
-    }
-
-    td, th {
-        border: 1px solid black;
-        text-align: center;
-        font-size: 26px;
-    }
-}
-
 @media screen, aural, braille, embossed, handheld, projection, screen, tty, tv {
      #enviar_form {
          display: block;
@@ -112,8 +11,8 @@
         margin-top: 10%;
         width: 60%;
         border-radius: 12px;
-        box-shadow: 7px 7px 5px 0 rgba(207,97,207,0.8);
-        border: 2px solid #CF61CF;
+        box-shadow: 7px 7px 5px 0 rgba(93,136,212,0.8);
+        border: 2px solid #5D88D4;
     }
 
     #caracteristicas {
@@ -127,7 +26,7 @@
         margin: auto;
         margin-left: 41%;
         margin-top: 5px;
-        border: 2px solid #CF61CF;
+        border: 2px solid #5D88D4;
         border-radius: 10px;
         padding: 10px;
     }
@@ -145,7 +44,7 @@
     .selector {
         clear:both;
         float:left;
-        border: 2px solid #CF61CF;
+        border: 2px solid #5D88D4;
         border-radius: 10px;
         padding: 10px;
         margin: 0;
@@ -156,7 +55,7 @@
 
     .boton_peticion {
         float: right;
-        border: 2px solid #CF61CF;
+        border: 2px solid #5D88D4;
         border-radius: 10px;
         padding: 10px;
         width: 18%;
@@ -172,14 +71,14 @@
 
     h2, h3 {
         border-radius: 12px;
-        border: 2px solid #CF61CF;
+        border: 2px solid #5D88D4;
         text-align: center;
         font-size:12px;
     }
 
     nav > ul {
         list-style-type: none;
-        background-color: #CF61CF;
+        background-color: #5D88D4;
         margin:auto;
         border: 1px solid black;
         border-radius: 12px;
@@ -195,13 +94,13 @@
         clear:both;
         text-align:justify;
         padding: 15px;
-        border:2px solid #CF61CF;
+        border:2px solid #5D88D4;
         font-size:12px;
     }
 
     h1 {
         font-size:19px;
-        text-shadow: 2px 2px #CF61CF;
+        text-shadow: 2px 2px #5D88D4;
         padding:0;
         margin:0;
         margin-left:10px;
@@ -220,7 +119,7 @@
         padding-left: 5px;
         padding-right: 5px;
         border-radius: 12px;
-        box-shadow: 7px 7px 5px 0px rgba(207,97,207,0.4);
+        box-shadow: 7px 7px 5px 0px rgba(93,136,212,0.4);
     }
 
     .link-plato {
@@ -232,7 +131,7 @@
     table {
         clear: both;
         margin: auto;
-        border: 1px solid #CF61CF;
+        border: 1px solid #5D88D4;
         margin-top: 30px;
     }
 
@@ -254,13 +153,13 @@
     }
 
     th {
-        background-color: #CF61CF;
+        background-color: #5D88D4;
         border: 1px dashed black;
         text-align: center;
     }
 
     td {
-        border: 1px dashed #CF61CF;
+        border: 1px dashed #5D88D4;
         text-align: center;
     }
 
@@ -295,7 +194,7 @@
     }
 
     nav > ul > li:hover {
-        background-color: #CF61CF;
+        background-color: #5D88D4;
     }
 
     #float-bg {
@@ -305,7 +204,7 @@
     }
 
     body {
-        background-color:#CF61CF;
+        background-color:#5D88D4;
         padding: 25px 50px 25px 50px;
     }
 
@@ -316,7 +215,7 @@
         width: 400px;
         left: 0;
         right: 0;
-        border: 2px solid #CF61CF;
+        border: 2px solid #5D88D4;
     }
 
     #cerrar_session {
@@ -381,7 +280,7 @@
     }
 
     #login {
-        border: 2px solid #CF61CF;
+        border: 2px solid #5D88D4;
         border-radius: 10px;
         clear:both;
         text-align: center;
@@ -400,7 +299,7 @@
 
     .boton_comanda {
         clear: both;
-        border: 2px solid #CF61CF;
+        border: 2px solid #5D88D4;
         border-radius: 10px;
         padding: 10px;
         margin: auto;
@@ -437,7 +336,7 @@
         display:table;
         clear: both;
         margin: auto;
-        border: 1px solid #CF61CF;
+        border: 1px solid #5D88D4;
         margin-top: 30px;
     }
     .tr
@@ -449,13 +348,13 @@
         display:table-cell;
         padding: 7px;
         background-color: rgba(255,255,0,0.6);
-        border: 1px dashed #CF61CF;
+        border: 1px dashed #5D88D4;
         text-align: center;
     }
     .th {
         display:table-cell;
         padding: 7px;
-        background-color: #CF61CF;
+        background-color: #5D88D4;
         border: 1px dashed black;
         text-align: center;
     }
