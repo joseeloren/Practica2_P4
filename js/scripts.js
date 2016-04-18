@@ -2,9 +2,24 @@ $(document).ready(function(){
     $('#borrar_servir').on('click','.listoParaServir',servirProducto);
     $('#borrar_servir').on('click',".eliminarArticulo",eliminarProducto);
     $('.boton_peticion').on('click', incluirProducto);
+    $('.nueva_comanda').on('click', add_comanda);
+    $('.botonesP').on('click', indicarElaboracion);
+    $('.botonesF').on('click', indicarFinalizacion);
+    $('#buscador').on('keyup',actualiza_platos);
+    if($('.n_comanda').length)
+        $('.ocupada').hide();
+    if($('#user').text == '')
+        $('#identifi').hide();
+    $('#user').on('keyup', comprobar_campos);
+    $('#pass').on('keyup', comprobar_campos);
 });
 
-tecla = -1;
+function comprobar_campos() {
+    if($('#user').text.length > 0 && $('#pass').text.length > 0)
+        $('#identifi').show();
+    else
+        $('#identifi').hide();
+}
 
 function servirProducto(){
     var id_lineascomanda = $(this).attr('id_lineascomanda');
@@ -28,7 +43,7 @@ function servirProducto(){
           }
        },
        error: function(res){
-          alert('Error:'+res);
+          alert('Error: '+res);
        }
     });
 }
@@ -70,14 +85,16 @@ function incluirProducto(){
 
               } else if(res.type == 1) {
                   $('#elaboracion').append('<tr><td>'+nombre_articulo+'</td><td>Pendiente</td></tr>');
+              } else {
+                 alert('Error: '+res.message);
               }
 
           }else{
-             alert('Error:'+res.message);
+             alert('Error: '+res.message);
           }
        },
        error: function(res){
-          alert('Error:'+res);
+          alert('Error: '+res);
        }
     });
 }
@@ -98,12 +115,12 @@ function indicarElaboracion() {
             $('#tablaHaciendo').append($('<tr id="haciendo'+id_lineascomanda+'"><td>'+ articulo+'</td><td>'+mesa+'</td><td><button id="boton'+id_lineascomanda+'" class ="botonesF"  id_lineascomanda="'+id_lineascomanda+'"> Finalizar</button> </td>'));
             $('#boton'+id_lineascomanda).on('click', indicarFinalizacion);
             }else{
-
+                alert('Error: ' + res.message);
             }
 
            },
            error: function(res){
-
+               alert('Error: ' + res);
            }
         });
 }
@@ -116,35 +133,51 @@ function indicarFinalizacion() {
         data: JSON.stringify({"id":id_lineascomanda}),
         dataType: "json",
         success: function(res){
-          if(res.modified){
-           $('#haciendo'+id_lineascomanda).remove();
+            if(res.modified){
+                $('#haciendo'+id_lineascomanda).remove();
             }else{
-
+                alert('Error: ' + res.message);
             }
-
            },
            error: function(res){
-
+                alert('Error: ' + res);
            }
         });
 }
 
-$(document).ready(function(){
-    $('.botonesP').on('click', indicarElaboracion);
-    $('.botonesF').on('click', indicarFinalizacion);
-});
+function add_comanda() {
+    var id_mesa = $(this).attr("id_mesa");
+    var id_camarero = $(this).attr("id_camarero");
+    $.ajax({
+        url: "../php/add_comanda_json.php",
+        type: "POST",
+        data: JSON.stringify({"id_mesa":id_mesa, "id_camarero":id_camarero,}),
+        dataType: "json",
+        success: function(res){
+          if(res.id_comanda != -1){
+              $(".n_comanda").hide();
+              $(".ocupada").show();
+              $(".ocupada").attr("id_comanda", res.id_comanda);
+          } else {
+              alert('Error: ' + res.message);
+          }
 
-window.onload = function() {
-    function actualiza_platos() {
-        var buscar = $(this).val();
-        $('#productos').children().children().each(function(index) {
-            if(index == 0) return;
-            var plato = $(this).children(':first').text();
-            (plato.toLowerCase().indexOf(buscar) > -1) ? $(this).show() : $(this).hide();
-        });
-    }
-    $('#buscador').on('keyup',actualiza_platos);
+        },
+        error: function(res){
+            alert('Error: ' + res);
+        }
+     });
 }
+
+function actualiza_platos() {
+    var buscar = $(this).val();
+    $('#productos').children().children().each(function(index) {
+        if(index == 0) return;
+        var plato = $(this).children(':first').text();
+        (plato.toLowerCase().indexOf(buscar) > -1) ? $(this).show() : $(this).hide();
+    });
+}
+
 
 
 

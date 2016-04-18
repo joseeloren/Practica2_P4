@@ -5,7 +5,7 @@ $page = <<<FIN_HTML
 <main>
             <section>
                 <h2 class="hide">Introducción</h2>
-                <p id="parrafo">En restaurante José tendrá un servicio familiar y acogedor.
+                <p id="parrafo">En el restaurante tendrá un servicio familiar y acogedor.
                 Servimos toda clase de platos de la gastronomía canaria. Realizamos
                 todo tipo de eventos. Además, realizamos actividades cada fin de semana
                 para todos los clientes. Será una experiencia inolvidable.

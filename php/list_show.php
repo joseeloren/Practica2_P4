@@ -109,24 +109,13 @@ function show_table($ocupacion=NULL) {
 
 
     if (strcmp($ocupacion, "Ocupada") == 0) {
-
         //Añadir peticiones a una comanda
         $res = obtener_comanda_activa_de_mesa($_POST['id_mesa']);
         if($res) {
             foreach($res as $row)
                 $id_comanda = $row['id_comanda'];
         }
-
         combobox_articulos($id_comanda);
-        $formi = <<<FIN_HTML
-       <form method="post" action="add_peticion.php" id="lineacomanda">
-        <input type="hidden" name="id_mesa" value="$_POST[id_mesa]">
-        <input type="hidden" name="id_comanda" value="$id_comanda">
-        <input  class="button boton_peticion" type="submit" value="Añadir petición">
-        </form>
-
-FIN_HTML;
-        //echo $formi;
 
         //Comandas en elaboración
         comandas_elaboracion($id_comanda);
@@ -138,14 +127,24 @@ FIN_HTML;
         cerrar_cobrar_comanda($id_comanda);
     }
     else {
+        $id_comanda = -1;
+
+        combobox_articulos($id_comanda);
+
+        //Comandas en elaboración
+        comandas_elaboracion($id_comanda);
+
+        //Eliminar y servir peticiones de una comanda
+        borrar_servir_comanda($id_comanda);
+
+        //Cerrar y cobrar una comanda
+        cerrar_cobrar_comanda($id_comanda);
+
         //Comenzar una nueva comanda
-        echo '<p class="clear_both">Haga click en el botón "Nueva comanda" para comenzar una comanda en esta mesa:</p>';
+        echo '<p class="clear_both n_comanda">Haga click en el botón "Nueva comanda" para comenzar una comanda en esta mesa:</p>';
         $formi = <<<FIN_HTML
-        <div id="center_form">
-        <form class="clear_both" method="post" action="add_comanda.php">
-                <input type="hidden" name="id_mesa" value="$_POST[id_mesa]">
-                <input class="boton_gen" type="submit" value="Nueva comanda">
-        </form>
+        <div id="center_form" class="n_comanda">
+            <input class="boton_gen nueva_comanda" id_mesa="$_POST[id_mesa]" id_camarero="$_SESSION[id_usuario]" type="submit" value="Nueva comanda">
         </div>
 FIN_HTML;
         echo $formi;

@@ -14,7 +14,7 @@ function writeNav() {
         <body id="body">
             <div id="float-bg">
             <header>
-                <h1>Restaurante José</h1>
+                <h1>Restaurante</h1>
                 <nav>
                     <ul>
                         <li>
@@ -62,10 +62,10 @@ function writeLoginBegin() {
             <section>
                 <form id="login" method="post" action="../php/area-privada.php">
                     <p>Usuario:</p>
-                    <input type="text" name="usuario"><br>
+                    <input id="user" type="text" name="usuario"><br>
                     <p>Clave:</p>
-                    <input type="password" name="clave"><br><br>
-                    <input class="button" type="submit" value="Identificarse">
+                    <input id="pass" type="password" name="clave"><br><br>
+                    <input id="identifi" class="button" type="submit" value="Identificarse">
                 </form>
 FIN_HTML;
     echo $html;
