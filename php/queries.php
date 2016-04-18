@@ -30,14 +30,6 @@ function select_de_mesa() {
     return $res;
 }
 
-function new_comanda() {
-    $time = time();
-    $query = 'INSERT INTO comandas (mesa, camareroapertura, horaapertura) VALUES (?, ?, ?);';
-    $array = array($_POST['id_mesa'], $_SESSION['id_usuario'], $time);
-    $res = query_from_database($query, $array);
-    return $res;
-}
-
 function select_articulos() {
     $query = 'SELECT id as id_articulo, nombre from Articulos where stock > 0;';
     $res = query_from_database($query);
@@ -58,14 +50,6 @@ function  select_lineascomanda_elaboracion($id_comanda) {
     return $res;
 }
 
-function select_buscar_plato($platito) {
-    $query = <<<FIN
-        SELECT nombre, pvp as pvp from articulos where nombre like '%$platito%';
-FIN;
-    $res = query_from_database($query);
-    return $res;
-}
-
 function  select_lineascomanda_servidas($id_comanda) {
     $query = 'select lineascomanda.id as id_lineas, articulos.nombre as articulo, articulos.pvp as pvp from articulos, lineascomanda, comandas where articulos.id=articulo and comandas.id=comanda and comanda=? and horaservicio>0';
     $array = array($id_comanda);
@@ -83,6 +67,7 @@ function get_articulos_pendientes_de_cocinero(){
     $res = query_from_database('Select articulos.nombre as articulo, mesas.nombre as mesa, lineascomanda.id as id_comanda FROM lineascomanda,articulos,comandas, mesas WHERE articulos.id=articulo and cocinero=? and mesas.id=mesa and comandas.id=comanda and horafinalizacion=0;', $array);
     return $res;
 }
+
 function get_articulos_pendientes_de_cocinero_concreto($id_lineascomanda){
     $array = array($id_lineascomanda, $_SESSION['id_usuario']);
     $res = query_from_database('Select articulos.nombre as articulo, mesas.nombre as mesa, lineascomanda.id as id_comanda FROM lineascomanda,articulos,comandas, mesas WHERE lineascomanda.id= ? articulos.id=articulo and cocinero=? and mesas.id=mesa and comandas.id=comanda and horafinalizacion=0;', $array);
@@ -95,41 +80,9 @@ function get_nombreMesa($id_mesa){
     return $res;
 }
 
-function query_indicar_preparacion($id_lineascomanda){
-    $array = array($_SESSION['id_usuario'], time(), $id_lineascomanda);
-    $res = query_from_database('UPDATE lineascomanda SET cocinero=?, horainicio=? WHERE id=?;', $array);
-}
-
-function query_indicar_finalizacion($id_lineascomanda){
-    $array = array(time(), $id_lineascomanda);
-    $res = query_from_database('UPDATE lineascomanda SET horafinalizacion=? WHERE id=?;', $array);
-}
-
-function add_peticion($id_comanda) {
-    $query = 'INSERT INTO lineascomanda (comanda, articulo, camareropeticion, horapeticion) VALUES (?,?,?,?);';
-    $time = time();
-    $array = array($id_comanda, $_POST['id_articulo'], $_SESSION['id_usuario'], $time);
-    $res = query_from_database($query, $array);
-    return $res;
-}
 function obtener_comanda_activa_de_mesa($id_mesa) {
     $query = 'SELECT comandas.id AS \'id_comanda\' FROM comandas WHERE mesa=? AND horacierre=0;';
     $array = array($id_mesa);
-    $res = query_from_database($query, $array);
-    return $res;
-}
-
-function query_servir($id_linea) {
-    $query = 'UPDATE lineascomanda SET camareroservicio=?, horaservicio=? WHERE id=?;';
-    $time = time();
-    $array = array($_SESSION['id_usuario'], $time, $id_linea);
-    $res = query_from_database($query, $array);
-    return $res;
-}
-
-function query_eliminar($id_linea) {
-    $query = 'DELETE FROM lineascomanda WHERE id=?;';
-    $array = array($id_linea);
     $res = query_from_database($query, $array);
     return $res;
 }
