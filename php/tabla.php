@@ -20,10 +20,7 @@ $algo = <<< FIN_HTML
                 </tr>
 FIN_HTML;
 echo $algo;
-if (!isset($_GET['platito']))
-    $res = select_buscar_plato("");
-else
-    $res = select_buscar_plato($_GET['platito']);
+$res = select_buscar_plato("");
 if($res) {
     foreach($res as $row) {
         $algo = <<< FIN_HTML
@@ -37,7 +34,6 @@ FIN_HTML;
 }
 $algo = <<< FIN_HTML
             </table>
-            <a id="go-top" href="#body">Ir arriba</a>
         </main>
 FIN_HTML;
 echo $algo;
